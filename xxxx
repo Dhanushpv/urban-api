@@ -1,0 +1,49 @@
+// https://fakestoreapi.com/products
+
+
+let xhr = new XMLHttpRequest();
+console.log("xhr:", xhr);
+
+// Configure the GET request
+xhr.open('get', 'https://fakestoreapi.com/products');
+
+document.getElementById('bttn1').window.onload = function() {
+
+    xhr.send();
+});
+
+xhr.onreadystatechange = function () {
+    console.log("readyState:", xhr.readyState);
+
+    if (xhr.readyState === 4) {
+        console.log("status:", xhr.status);
+
+        if (xhr.status === 200) {
+            let response = xhr.response; // Corrected variable name and method
+            console.log("response:", response);
+            console.log("typeof(response):", typeof(response));
+
+            let datas = JSON.parse(response); // Corrected variable name
+            console.log("datas:", datas);
+
+            let hi = document.getElementById('hi');
+            console.log("dataContainer:", hi);
+
+            let product = datas.find(item => item.id === 1);
+            console.log("product:", product);
+
+            if (product) {
+                hi.innerHTML = `
+                    <div>
+                        <h2>${product.title}</h2>
+                        <p>${product.description}</p>
+                        <p>Price: $${product.price}</p>
+                        <p>Category: ${product.category}</p>
+                    </div>
+                `;
+            } else {
+                hi.innerHTML = `<p>Product with id=1 not found.</p>`;
+            }
+        }
+    }
+}
